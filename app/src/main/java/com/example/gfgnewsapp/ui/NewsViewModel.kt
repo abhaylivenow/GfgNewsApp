@@ -17,6 +17,10 @@ class NewsViewModel(
     var newsPage = 1
     var newsResponse: News? = null
 
+    init {
+        getNews()
+    }
+
     fun getNews() = viewModelScope.launch {
         news.postValue(Resource.Loading())
         val response = newsRepository.getNews()
