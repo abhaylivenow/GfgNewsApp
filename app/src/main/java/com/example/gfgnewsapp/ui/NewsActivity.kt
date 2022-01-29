@@ -1,4 +1,4 @@
-package com.example.gfgnewsapp
+package com.example.gfgnewsapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,10 +9,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.gfgnewsapp.R
 import com.example.gfgnewsapp.adapters.NewsAdapter
 import com.example.gfgnewsapp.repository.NewsRepository
-import com.example.gfgnewsapp.ui.NewsViewModel
-import com.example.gfgnewsapp.ui.NewsViewModelProvider
 import com.example.gfgnewsapp.util.Resource
 
 class NewsActivity : AppCompatActivity() {
@@ -37,8 +36,17 @@ class NewsActivity : AppCompatActivity() {
 
         setupRecyclerView()
 
-        viewModel.news.observe(this, { newsResponse->
-            when(newsResponse) {
+        observeData()
+
+        refreshLayout.setOnRefreshListener {
+            refreshLayout.isRefreshing = true
+            observeData()
+        }
+    }
+
+    private fun observeData() {
+        viewModel.news.observe(this, { newsResponse ->
+            when (newsResponse) {
                 is Resource.Success -> {
                     hideProgressBar()
                     newsResponse.data.let {
@@ -55,19 +63,13 @@ class NewsActivity : AppCompatActivity() {
                 }
             }
         })
+    }
 
-        refreshLayout.setOnRefreshListener {
-            refreshLayout.isRefreshing = true
-            viewModel.news.observe(this, { newsResponse->
-                when(newsResponse) {
-                    is Resource.Success -> {
-                        newsResponse.data.let {
-                            newsAdapter.differ.submitList(newsResponse.data?.items)
-                        }
-                    }
-                }
-            })
-            refreshLayout.isRefreshing = false
+    private fun setupRecyclerView() {
+        newsAdapter = NewsAdapter()
+        rvNews.apply {
+            adapter = newsAdapter
+            layoutManager = LinearLayoutManager(applicationContext)
         }
     }
 
@@ -77,13 +79,5 @@ class NewsActivity : AppCompatActivity() {
 
     private fun showProgressBar() {
         progressBar.visibility = View.VISIBLE
-    }
-
-    private fun setupRecyclerView() {
-        newsAdapter = NewsAdapter(viewModel)
-        rvNews.apply {
-            adapter = newsAdapter
-            layoutManager = LinearLayoutManager(applicationContext)
-        }
     }
 }

@@ -9,28 +9,25 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.gfgnewsapp.R
-import com.example.gfgnewsapp.ReadNewsActivity
+import com.example.gfgnewsapp.ui.ReadNewsActivity
 import com.example.gfgnewsapp.model.Item
-import com.example.gfgnewsapp.ui.NewsViewModel
 import kotlinx.android.synthetic.main.layout_news.view.*
 
-class NewsAdapter(
-    val viewModel: NewsViewModel,
-) : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
+class NewsAdapter() : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
 
     inner class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     private val differCallback = object : DiffUtil.ItemCallback<Item>() {
         override fun areItemsTheSame(
             oldItem: Item,
-            newItem: Item,
+            newItem: Item
         ): Boolean {
             return oldItem.link == newItem.link
         }
 
         override fun areContentsTheSame(
             oldItem: Item,
-            newItem: Item,
+            newItem: Item
         ): Boolean {
             return oldItem == newItem
         }
@@ -40,7 +37,7 @@ class NewsAdapter(
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
-        viewType: Int,
+        viewType: Int
     ): ArticleViewHolder {
         return ArticleViewHolder(
             LayoutInflater.from(parent.context).inflate(
@@ -57,7 +54,7 @@ class NewsAdapter(
 
     override fun onBindViewHolder(
         holder: ArticleViewHolder,
-        position: Int,
+        position: Int
     ) {
         val item = differ.currentList[position]
         val imageLink = item.enclosure.link
@@ -65,7 +62,7 @@ class NewsAdapter(
         removing 'amp;' from the image link string, so that image can be
         loaded into image view.
          */
-        val newImageLink = imageLink.replace("amp;","")
+        val newImageLink = imageLink.replace("amp;", "")
 
         holder.itemView.apply {
             Glide.with(this).load(newImageLink).into(image_news)
@@ -76,7 +73,7 @@ class NewsAdapter(
                     context,
                     ReadNewsActivity::class.java
                 )
-                dataIntent.putExtra("url",item.link)
+                dataIntent.putExtra("url", item.link)
                 context.startActivity(dataIntent)
             }
         }

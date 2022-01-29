@@ -11,10 +11,9 @@ import retrofit2.Response
 
 class NewsViewModel(
     val newsRepository: NewsRepository
-) : ViewModel(){
+) : ViewModel() {
 
     val news: MutableLiveData<Resource<News>> = MutableLiveData()
-    var newsPage = 1
     var newsResponse: News? = null
 
     init {
@@ -27,7 +26,9 @@ class NewsViewModel(
         news.postValue(handleNewsResponse(response))
     }
 
-    private fun handleNewsResponse(response: Response<News>): Resource<News> {
+    private fun handleNewsResponse(
+        response: Response<News>
+    ): Resource<News> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 newsResponse = resultResponse

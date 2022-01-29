@@ -1,9 +1,9 @@
-package com.example.gfgnewsapp
+package com.example.gfgnewsapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.webkit.WebView
+import com.example.gfgnewsapp.R
 
 class ReadNewsActivity : AppCompatActivity() {
 

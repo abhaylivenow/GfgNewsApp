@@ -6,5 +6,5 @@ import retrofit2.http.GET
 
 interface NewsApi {
     @GET("v1/api.json?rss_url=http://www.abc.net.au/news/feed/51120/rss.xml")
-    suspend fun getNews() : Response<News>
+    suspend fun getNews(): Response<News>
 }

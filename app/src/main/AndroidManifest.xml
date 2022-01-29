@@ -12,10 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GfgNewsApp">
         <activity
-            android:name=".ReadNewsActivity"
+            android:name=".ui.ReadNewsActivity"
             android:exported="true" />
         <activity
-            android:name=".NewsActivity"
+            android:name=".ui.NewsActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

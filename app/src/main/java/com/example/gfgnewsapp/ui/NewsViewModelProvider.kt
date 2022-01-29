@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.gfgnewsapp.repository.NewsRepository
 
 class NewsViewModelProvider(
-    val newsRepository: NewsRepository,
+    val newsRepository: NewsRepository
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
