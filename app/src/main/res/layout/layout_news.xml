@@ -7,7 +7,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="140dp"
         app:cardCornerRadius="20dp">
 
         <RelativeLayout
@@ -17,7 +17,7 @@
 
             <ImageView
                 android:id="@+id/image_news"
-                android:layout_width="150dp"
+                android:layout_width="140dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:scaleType="fitXY"
@@ -33,7 +33,7 @@
                 android:layout_toLeftOf="@id/image_news"
                 android:maxLines="3"
                 android:text="This is some random heading just to fill up some space below the image view"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <View
@@ -55,7 +55,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="20dp"
                 android:text="Jan 7, 2021 07:21 AM"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
         </RelativeLayout>
 
