@@ -41,6 +41,7 @@ class NewsActivity : AppCompatActivity() {
         refreshLayout.setOnRefreshListener {
             refreshLayout.isRefreshing = true
             observeData()
+            refreshLayout.isRefreshing = false
         }
     }
 
