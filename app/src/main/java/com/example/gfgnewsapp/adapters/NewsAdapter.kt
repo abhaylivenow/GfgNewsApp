@@ -4,12 +4,12 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.gfgnewsapp.R
+import com.example.gfgnewsapp.ReadNewsActivity
 import com.example.gfgnewsapp.model.Item
 import com.example.gfgnewsapp.ui.NewsViewModel
 import kotlinx.android.synthetic.main.layout_news.view.*
@@ -60,19 +60,25 @@ class NewsAdapter(
         position: Int,
     ) {
         val item = differ.currentList[position]
+        val imageLink = item.enclosure.link
+        /*
+        removing 'amp;' from the image link string, so that image can be
+        loaded into image view.
+         */
+        val newImageLink = imageLink.replace("amp;","")
+
         holder.itemView.apply {
-            Glide.with(this).load(item.enclosure.thumbnail).into(image_news)
+            Glide.with(this).load(newImageLink).into(image_news)
             text_title.text = item.title
             text_date.text = item.pubDate
-//            setOnClickListener {
-//                onItemClickListener?.let { it(article) }
-//            }
+            holder.itemView.setOnClickListener {
+                val dataIntent = Intent(
+                    context,
+                    ReadNewsActivity::class.java
+                )
+                dataIntent.putExtra("url",item.link)
+                context.startActivity(dataIntent)
+            }
         }
-    }
-
-    private var onItemClickListener: ((Item) -> Unit)? = null
-
-    fun setOnItemClickListener(listener: (Item) -> Unit) {
-        onItemClickListener = listener
     }
 }
