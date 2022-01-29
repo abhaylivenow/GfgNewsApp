@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.gfgnewsapp.adapters.NewsAdapter
 import com.example.gfgnewsapp.repository.NewsRepository
 import com.example.gfgnewsapp.ui.NewsViewModel
@@ -17,12 +18,14 @@ class NewsActivity : AppCompatActivity() {
     private lateinit var viewModel: NewsViewModel
     private lateinit var rvNews: RecyclerView
     private lateinit var newsAdapter: NewsAdapter
+    private lateinit var refreshLayout: SwipeRefreshLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news)
 
         rvNews = findViewById(R.id.rv_news)
+        refreshLayout = findViewById(R.id.refresh_layout)
 
         val newsRepository = NewsRepository()
         val viewModelProviderFactory = NewsViewModelProvider(newsRepository)
@@ -39,6 +42,20 @@ class NewsActivity : AppCompatActivity() {
                 }
             }
         })
+
+        refreshLayout.setOnRefreshListener {
+            refreshLayout.isRefreshing = true
+            viewModel.news.observe(this, { newsResponse->
+                when(newsResponse) {
+                    is Resource.Success -> {
+                        newsResponse.data.let {
+                            newsAdapter.differ.submitList(newsResponse.data?.items)
+                        }
+                    }
+                }
+            })
+            refreshLayout.isRefreshing = false
+        }
     }
 
     private fun setupRecyclerView() {
